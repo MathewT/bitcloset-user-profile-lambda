@@ -7,16 +7,16 @@ var AWS = require('aws-sdk');
 exports.handler = function(event, context, callback){
     console.log('bitcloset test: user profile lambda.');
 
-    if (!event.authToken) {
-        callback("Err: Could not find authToken.");
+    if (!event.myAuthToken) {
+        callback("Err: bitcloset-user-profile-lambda: Could not find myAuthToken.");
         return;
     }
 
-    var token = event.authToken.split(' ')[1];
+    var token = event.myAuthToken.split(' ')[1];
     var secretBuffer = new Buffer(process.env.AUTH0_SECRET);
     jwt.verify(token, secretBuffer, function(err, decoded){
         if(err){
-                console.log('Failed jwt verification: ', err, 'auth: ', event.authToken);
+                console.log('Failed jwt verification: ', err, 'auth: ', event.myAuthToken);
                 callback('Authorization Failed');
         } else {
         console.log("jwt verification success!");
